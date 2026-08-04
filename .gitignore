@@ -236,3 +236,4 @@ env/
 Thumbs.db
 # Dataset files
 data/*.csv
+!data/student_performance_sample.csv

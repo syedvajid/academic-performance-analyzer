@@ -3,7 +3,7 @@ import pandas as pd
 
 st.title("📂 Dataset Explorer")
 
-df = pd.read_csv("data/student_performance.csv")
+df = pd.read_csv("data/student_performance_sample.csv")
 
 st.subheader("Dataset")
 

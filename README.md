@@ -3,8 +3,17 @@
 An end-to-end Machine Learning application for analyzing student academic data and predicting academic performance using **Python, Scikit-learn, and Streamlit**.
 
 The project demonstrates a complete machine learning workflow, from data preprocessing and exploratory analysis to model training, evaluation, and deployment through an interactive web application.
+---
+
+## 🌐 Live Demo
+
+🚀 **Try the deployed application:**  
+[Launch Academic Performance Analyzer](https://academic-performance-analyzer-jdrwtvmd2pfhnbf98efgsr.streamlit.app/)
+
+The application is deployed using **Streamlit Community Cloud**.
 
 ---
+
 
 ## 📌 Project Overview
 
@@ -262,7 +271,6 @@ Student Score Prediction
 ```
 
 ---
-
 ## 🚀 Future Improvements
 
 Possible future extensions include:
@@ -272,13 +280,14 @@ Possible future extensions include:
 - Automated hyperparameter optimization
 - Additional academic and behavioral features
 - Improved model interpretability
-- Cloud deployment
 
 ---
 
 ## 📌 Project Status
 
-✅ **Core project completed**
+✅ **Completed and Deployed**
+
+🌐 Live application available through Streamlit Community Cloud.
 
 The current version includes the complete ML pipeline, trained regression models, model evaluation, individual prediction, batch prediction, and an interactive Streamlit dashboard.
 

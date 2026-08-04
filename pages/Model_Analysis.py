@@ -21,7 +21,7 @@ st.set_page_config(
 # ---------------------------------------------
 # Load Dataset
 # ---------------------------------------------
-df = pd.read_csv("data/student_performance.csv")
+df = pd.read_csv("data/student_performance_sample.csv")
 
 X = df[
     [

@@ -8,7 +8,7 @@ The project demonstrates a complete machine learning workflow, from data preproc
 ## 🌐 Live Demo
 
 🚀 **Try the deployed application:**  
-[Launch Academic Performance Analyzer](https://academic-performance-analyzer-dsci2jslks7nyskrhc3.streamlit.app)
+[Launch Academic Performance Analyzer](https://academic-performance-analyzer-dseci2jzslks7nysrkrhc3.streamlit.app/)
 
 The application is deployed using **Streamlit Community Cloud**.
 

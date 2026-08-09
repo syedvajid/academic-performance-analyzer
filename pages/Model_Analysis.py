@@ -38,7 +38,6 @@ FEATURES = [
 
 TARGET = "total_score"
 
-
 # ============================================================
 # LOAD DATASET
 # ============================================================
@@ -46,9 +45,7 @@ TARGET = "total_score"
 df = pd.read_csv(DATASET_PATH)
 
 X = df[FEATURES]
-
 y = df[TARGET]
-
 
 # ============================================================
 # TRAIN / TEST SPLIT
@@ -60,7 +57,6 @@ X_train, X_test, y_train, y_test = train_test_split(
     test_size=0.20,
     random_state=42
 )
-
 
 # ============================================================
 # LOAD MODELS
@@ -74,7 +70,6 @@ random_forest_model = joblib.load(
     RANDOM_FOREST_MODEL_PATH
 )
 
-
 # ============================================================
 # TEST SET PREDICTIONS
 # ============================================================
@@ -82,7 +77,6 @@ random_forest_model = joblib.load(
 linear_pred = linear_model.predict(X_test)
 
 rf_pred = random_forest_model.predict(X_test)
-
 
 # ============================================================
 # EVALUATION FUNCTION
@@ -129,21 +123,17 @@ rf_metrics = calculate_metrics(
     rf_pred
 )
 
-
 # ============================================================
 # DETERMINE BEST MODEL
 # ============================================================
-#
+
 # Higher R² is better.
-# Lower MAE is better.
-# Lower RMSE is better.
+# Lower MAE and RMSE are better.
 #
-# We primarily use R² to select the model.
-# If R² is extremely close, MAE and RMSE act as tie-breakers.
-# ============================================================
+# R² is used as the primary selection criterion.
 
 if linear_metrics["R²"] > rf_metrics["R²"]:
-    
+
     best_model_name = "Linear Regression"
 
     best_model = linear_model
@@ -178,7 +168,6 @@ st.write(
 
 st.divider()
 
-
 # ============================================================
 # DATASET INFORMATION
 # ============================================================
@@ -189,14 +178,12 @@ st.subheader(
 
 col1, col2, col3, col4 = st.columns(4)
 
-
 with col1:
 
     st.metric(
         "👨‍🎓 Students",
         f"{len(df):,}"
     )
-
 
 with col2:
 
@@ -205,14 +192,12 @@ with col2:
         f"{len(X_train):,}"
     )
 
-
 with col3:
 
     st.metric(
         "🔬 Testing Samples",
         f"{len(X_test):,}"
     )
-
 
 with col4:
 
@@ -221,9 +206,7 @@ with col4:
         len(FEATURES)
     )
 
-
 st.divider()
-
 
 # ============================================================
 # MODEL COMPARISON
@@ -232,7 +215,6 @@ st.divider()
 st.subheader(
     "🏆 Model Comparison"
 )
-
 
 comparison = pd.DataFrame({
 
@@ -259,35 +241,26 @@ comparison = pd.DataFrame({
 
 })
 
-
 st.dataframe(
-
     comparison.style.format({
-
         "Linear Regression": "{:.4f}",
-
         "Random Forest": "{:.4f}"
-
     }),
-
-    use_container_width=True
-
+    use_container_width=True,
+    hide_index=True
 )
 
-
-# ============================================================
-# WINNER
-# ============================================================
-
 st.divider()
+
+# ============================================================
+# BEST MODEL PERFORMANCE
+# ============================================================
 
 st.subheader(
     f"🥇 Best Model: {best_model_name}"
 )
 
-
 col1, col2, col3, col4 = st.columns(4)
-
 
 with col1:
 
@@ -296,14 +269,12 @@ with col1:
         f"{best_metrics['R²']:.4f}"
     )
 
-
 with col2:
 
     st.metric(
         "📉 MAE",
         f"{best_metrics['MAE']:.4f}"
     )
-
 
 with col3:
 
@@ -312,7 +283,6 @@ with col3:
         f"{best_metrics['RMSE']:.4f}"
     )
 
-
 with col4:
 
     st.metric(
@@ -320,28 +290,24 @@ with col4:
         f"{best_metrics['MSE']:.4f}"
     )
 
-
 st.success(
     f"🏆 {best_model_name} is the best-performing model "
     f"on the unseen test dataset."
 )
 
+st.divider()
 
 # ============================================================
 # ACTUAL VS PREDICTED
 # ============================================================
 
-st.divider()
-
 st.subheader(
     f"🎯 Actual vs Predicted Scores - {best_model_name}"
 )
 
-
 fig, ax = plt.subplots(
     figsize=(9, 6)
 )
-
 
 ax.scatter(
     y_test,
@@ -349,18 +315,15 @@ ax.scatter(
     alpha=0.4
 )
 
-
 min_value = min(
     y_test.min(),
     best_pred.min()
 )
 
-
 max_value = max(
     y_test.max(),
     best_pred.max()
 )
-
 
 ax.plot(
     [min_value, max_value],
@@ -368,7 +331,6 @@ ax.plot(
     linestyle="--",
     linewidth=2
 )
-
 
 ax.set_xlabel(
     "Actual Score"
@@ -382,35 +344,29 @@ ax.set_title(
     f"{best_model_name}: Actual vs Predicted"
 )
 
-
 st.pyplot(
     fig
 )
-
 
 st.info(
     "Points closer to the diagonal line indicate more accurate predictions."
 )
 
+st.divider()
 
 # ============================================================
 # RESIDUAL ANALYSIS
 # ============================================================
 
-st.divider()
-
 st.subheader(
     f"📉 Residual Analysis - {best_model_name}"
 )
 
-
 residuals = y_test - best_pred
-
 
 fig2, ax2 = plt.subplots(
     figsize=(9, 6)
 )
-
 
 ax2.scatter(
     best_pred,
@@ -418,13 +374,11 @@ ax2.scatter(
     alpha=0.4
 )
 
-
 ax2.axhline(
     y=0,
     linestyle="--",
     linewidth=2
 )
-
 
 ax2.set_xlabel(
     "Predicted Score"
@@ -438,30 +392,25 @@ ax2.set_title(
     f"{best_model_name}: Residual Plot"
 )
 
-
 st.pyplot(
     fig2
 )
-
 
 st.info(
     "A good regression model should have residuals reasonably "
     "distributed around zero without a strong systematic pattern."
 )
 
+st.divider()
 
 # ============================================================
 # FEATURE IMPORTANCE
 # ============================================================
 
-st.divider()
-
 st.subheader(
     "🔍 Feature Importance"
 )
 
-
-# Random Forest has native feature_importances_
 importance_df = pd.DataFrame({
 
     "Feature": FEATURES,
@@ -470,25 +419,18 @@ importance_df = pd.DataFrame({
 
 })
 
-
 importance_df = importance_df.sort_values(
     "Importance",
     ascending=False
 )
 
-
 st.dataframe(
-
     importance_df.style.format({
-
         "Importance": "{:.4f}"
-
     }),
-
-    use_container_width=True
-
+    use_container_width=True,
+    hide_index=True
 )
-
 
 # ============================================================
 # FEATURE IMPORTANCE CHART
@@ -498,12 +440,10 @@ fig3, ax3 = plt.subplots(
     figsize=(9, 5)
 )
 
-
 ax3.bar(
     importance_df["Feature"],
     importance_df["Importance"]
 )
-
 
 ax3.set_xlabel(
     "Feature"
@@ -517,16 +457,13 @@ ax3.set_title(
     "Random Forest Feature Importance"
 )
 
-
 plt.xticks(
     rotation=20
 )
 
-
 st.pyplot(
     fig3
 )
-
 
 # ============================================================
 # MODEL INTERPRETATION
@@ -538,11 +475,9 @@ st.subheader(
     "🧠 Model Interpretation"
 )
 
-
 top_feature = importance_df.iloc[0]["Feature"]
 
 top_importance = importance_df.iloc[0]["Importance"]
-
 
 st.write(
     f"According to the Random Forest model, "
@@ -550,12 +485,10 @@ st.write(
     f"with a feature importance of **{top_importance:.4f}**."
 )
 
-
 st.write(
     "The model uses weekly self-study hours, attendance percentage, "
     "and class participation together to estimate a student's total score."
 )
-
 
 # ============================================================
 # LINEAR REGRESSION COEFFICIENTS
@@ -564,7 +497,6 @@ st.write(
 st.subheader(
     "📐 Linear Regression Coefficients"
 )
-
 
 if hasattr(linear_model, "coef_"):
 
@@ -576,38 +508,28 @@ if hasattr(linear_model, "coef_"):
 
     })
 
-
     coefficient_df["Absolute Impact"] = (
         coefficient_df["Coefficient"].abs()
     )
-
 
     coefficient_df = coefficient_df.sort_values(
         "Absolute Impact",
         ascending=False
     )
 
-
     st.dataframe(
-
         coefficient_df.style.format({
-
             "Coefficient": "{:.4f}",
-
             "Absolute Impact": "{:.4f}"
-
         }),
-
-        use_container_width=True
-
+        use_container_width=True,
+        hide_index=True
     )
-
 
     st.info(
         "Linear regression coefficients show how the predicted score "
         "changes with each feature while the other features are held constant."
     )
-
 
 # ============================================================
 # MODEL VERDICT
@@ -618,7 +540,6 @@ st.divider()
 st.subheader(
     "⚖️ Model Verdict"
 )
-
 
 if best_model_name == "Linear Regression":
 
@@ -645,7 +566,6 @@ else:
         "that the linear model cannot represent as effectively."
     )
 
-
 # ============================================================
 # FINAL MODEL SUMMARY
 # ============================================================
@@ -656,60 +576,42 @@ st.subheader(
     "📋 Final Model Summary"
 )
 
-
 summary = pd.DataFrame({
 
     "Property": [
-
         "Dataset",
-
         "Number of Students",
-
         "Features",
-
         "Target",
-
         "Best Model",
-
         "R² Score",
-
         "MAE",
-
         "RMSE"
-
     ],
 
     "Value": [
-
         "Student Performance V2",
-
-        f"{len(df):,}",
-
-        len(FEATURES),
-
-        TARGET,
-
-        best_model_name,
-
+        str(len(df)),
+        str(len(FEATURES)),
+        "total_score",
+        str(best_model_name),
         f"{best_metrics['R²']:.4f}",
-
         f"{best_metrics['MAE']:.4f}",
-
         f"{best_metrics['RMSE']:.4f}"
-
     ]
 
 })
 
+# Explicitly force every Value to string.
+# This prevents PyArrow/Streamlit mixed-type errors.
+
+summary["Value"] = summary["Value"].astype(str)
 
 st.dataframe(
-
     summary,
-
-    use_container_width=True
-
+    use_container_width=True,
+    hide_index=True
 )
-
 
 # ============================================================
 # FINAL SUCCESS MESSAGE
